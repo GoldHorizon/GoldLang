@@ -1,0 +1,11 @@
+Useful, common functions/classes:
+    class reporting;
+        // idea: Ease of compiler message/error reporting to user
+        report_message("Message");
+        report_warning("");
+        report_error("");
+
+
+    lexer::check_symbol("");
+    lexer::check_operator("");
+    // One for each token type, or each important one
