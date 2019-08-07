@@ -19,8 +19,9 @@ int main (int argc, char** argv) {
 
 	report_message("Time taken: % milliseconds\n", timer::time());
 
-    //parser p(l.tokens);
-    //p.build_tree();
+    parser p(l.tokens);
+    p.build_tree();
+    p.print_tree();
 
     if (warning_count > 0 || error_count > 0)
         report_message("Warnings: % | Errors: %\n", warning_count, error_count);

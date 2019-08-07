@@ -5,6 +5,8 @@
 static uint16_t warning_count = 0;
 static uint16_t error_count = 0;
 
+void report_tabs(int t);
+
 // Messages
 void report_message(const char* s);
 
