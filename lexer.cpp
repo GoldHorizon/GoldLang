@@ -33,7 +33,11 @@ lexer::lexer() {
                      "^case", 
                      "^break", 
                      "^continue",
-                     "^struct"};
+                     "^struct",
+                     "^int",
+                     "^bool",
+                     "^float",
+                     "^string"};
 
     for (auto word : keywords) {
         re_list.push_back(new re_type {new std::regex (word), token_type::KEYWORD});

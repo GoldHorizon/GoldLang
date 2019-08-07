@@ -7,7 +7,7 @@
 
 // idea: function definition
 //   name : (parameters) return_value {code}
-start : () int {
+start : (int argc, string argv) int {
     // idea: 
     name : "Nick";
     gender : string = "male";

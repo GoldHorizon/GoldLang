@@ -105,7 +105,7 @@ ast::return_call* parser::create_return() {
     root->lhs = new ast::identifier;
     root->rhs = nullptr;
 
-    // Temporary
+    // Temporary @todo
     while (!check_symbol(";")) eat_token();
           
     eat_token();
@@ -129,10 +129,41 @@ ast::func_def* parser::create_func_definition() {
     // Parameters
     eat_token(); eat_token(); // Remove : and (
     
-    while (!check_symbol(")"))
-        eat_token();
+    // Function parameters
+    while (!check_symbol(")")) {
+        auto id = new ast::identifier;
 
-    eat_token();
+        if (front_token()->type != token_type::KEYWORD) {
+            report_error("Expected type in parameters on line % - Token %\n", front_token()->line, front_token()->str);
+
+            if (root) 
+                delete root;
+
+            delete id;
+            return nullptr;
+        }
+        auto tstr = eat_token()->str;
+        id->token_info = *eat_token();
+        if (tstr == "bool") id->type_info = type::t_bool;
+        else if (tstr == "int") id->type_info = type::t_int;
+        else if (tstr == "float") id->type_info = type::t_float;
+        else if (tstr == "string") id->type_info = type::t_string;
+        else {
+            report_error("Invalid type in parameters on line %\n", front_token()->line);
+
+            if (root) 
+                delete root;
+
+            delete id;
+            return nullptr;
+        }
+
+        root->rhs_params->identifier_list.push_back(id);
+
+        if (check_operator(",")) eat_token();
+    }
+
+    eat_token(); // Eat ')'
 
     // Return type
     std::cout << "\tReturn type: " << front_token()->str << std::endl;
@@ -162,8 +193,7 @@ ast::func_call* parser::create_func_call() {
     root->lhs = new ast::identifier;
     root->rhs = new ast::parameters;
 
-    root->lhs->token_info = *front_token();
-    eat_token();
+    root->lhs->token_info = *eat_token();
 
     if (check_symbol("(")) eat_token();
     else {
@@ -171,8 +201,39 @@ ast::func_call* parser::create_func_call() {
         return nullptr;
     }
 
-    // TEMP
-    while (!check_symbol(";")) eat_token();
+    // Function parameters
+    while (!check_symbol(")")) {
+        auto id = new ast::identifier;
+
+        id->token_info = *eat_token();
+        switch (id->token_info.type) {
+            case token_type::STRING:
+                id->type_info = type::t_string;
+                break;
+            //case token_type::CONSTANT:
+            default:
+                id->type_info = type::t_null;
+        }
+
+        root->rhs->identifier_list.push_back(id);
+
+        if (check_operator(",")) eat_token();
+    }
+
+    eat_token();
+
+    if (!check_symbol(";")) {
+        report_error("Expected ';' after function call on line %\n", front_token()->line);
+
+        if (root)
+            delete root;
+
+        while (!check_symbol(";")) eat_token();
+        eat_token();
+
+        return nullptr;
+    }
+
     eat_token();
 
     return root;

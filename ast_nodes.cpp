@@ -42,7 +42,7 @@ void func_def::print(int t) {
 
     // Parameters
     rhs_params->print(0);
-    report_message(") % {\n", type_str(rhs_ret_type));
+    report_message(") RETURNS % {\n", type_str(rhs_ret_type));
 
     // Code
     for (auto s : rhs_code->statement_list) {
