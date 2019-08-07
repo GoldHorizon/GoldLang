@@ -11,6 +11,7 @@ class parser {
     public:
         parser(std::deque<token*>& token_list);
         void build_tree();
+        void print_tree();
 
         ast::code*          create_code();
         ast::func_def*      create_func_definition();

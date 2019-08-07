@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 // File with all type info
 
 enum class type {
@@ -10,27 +12,30 @@ enum class type {
     t_string
 };
 
+std::string type_str(type t);
+
 // Useful ever?
-class type_base {
-    public:
-        virtual ~type_base() = 0;
-
-    protected:
-        type data_type;
-};
-
-class type_bool : public type_base {
-    
-};
-
-class type_int : public type_base {
-
-};
-
-class type_float : public type_base {
-
-};
-
-class type_string : public type_base {
-
-};
+//class type_base {
+//    public:
+//        virtual ~type_base() = 0;
+//
+//    protected:
+//        type data_type;
+//};
+//
+//class type_bool : public type_base {
+//    
+//};
+//
+//class type_int : public type_base {
+//
+//};
+//
+//class type_float : public type_base {
+//
+//};
+//
+//class type_string : public type_base {
+//
+//};
+//

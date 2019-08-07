@@ -19,7 +19,7 @@ struct identifier;
 struct parameters;
 struct root : public node {
     ~root();
-    virtual void print(int t);
+    virtual void print(int t = 0);
 
     code* statement_list;
 };
@@ -40,7 +40,7 @@ struct expression : public node {
 
 struct func_def : public definition {
     ~func_def();
-    virtual void print(int t);
+    virtual void print(int t = 0);
 
     parameters* rhs_params;
     type rhs_ret_type;
@@ -49,7 +49,7 @@ struct func_def : public definition {
 
 struct func_call : public statement {
     ~func_call();
-    virtual void print(int t);
+    virtual void print(int t = 0);
 
     parameters* rhs;
 };
@@ -64,34 +64,34 @@ struct func_call : public statement {
 
 struct return_call : public statement {
     ~return_call();
-    virtual void print(int t);
+    virtual void print(int t = 0);
 
     expression* rhs;
 };
 
 struct parameters : public node {
     ~parameters();
-    virtual void print(int t);
+    virtual void print(int t = 0);
 
     std::vector<identifier*> identifier_list;
 };
 
 struct code : public node {
     ~code();
-    virtual void print(int t);
+    virtual void print(int t = 0);
 
     std::vector<statement*> statement_list;
 };
 
 struct identifier : public expression { // Found as: identifier
-    virtual void print(int t);
+    virtual void print(int t = 0);
 
     token token_info;
     type type_info;
 };
 
 struct number : public expression { // Found as: 4, 8.6, 0x4F3, .04, 89. (Forced float?)
-    virtual void print(int t);
+    virtual void print(int t = 0);
 
     token token_info;
     type type_info;
@@ -99,7 +99,7 @@ struct number : public expression { // Found as: 4, 8.6, 0x4F3, .04, 89. (Forced
 
 struct eval : public expression { // Found in: '( eval )'
     ~eval();
-    virtual void print(int t);
+    virtual void print(int t = 0);
 
     expression* inside;
 };

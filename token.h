@@ -4,6 +4,7 @@
 
 enum class token_type {
     NONE,
+    COMMENT,
     KEYWORD,
     IDENTIFIER,
     CONSTANT,

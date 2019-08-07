@@ -16,6 +16,11 @@ void parser::build_tree() {
 
 }
 
+void parser::print_tree() {
+    if (tree != nullptr)
+        tree->print();
+}
+
 token* parser::eat_token() {
     auto t = tokens.front();
 
@@ -157,7 +162,14 @@ ast::func_call* parser::create_func_call() {
     root->lhs = new ast::identifier;
     root->rhs = new ast::parameters;
 
+    root->lhs->token_info = *front_token();
+    eat_token();
+
     if (check_symbol("(")) eat_token();
+    else {
+        report_error("Expected '(' after % on line % - Got %\n", root->lhs->token_info.str, root->lhs->token_info.line, front_token()->str);
+        return nullptr;
+    }
 
     // TEMP
     while (!check_symbol(";")) eat_token();
