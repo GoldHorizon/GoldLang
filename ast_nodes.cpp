@@ -10,7 +10,7 @@ root::~root() {
     delete statement_list;
 }
 
-void root::print() {
+void root::print(int t) {
     
 }
 
@@ -31,7 +31,7 @@ func_def::~func_def() {
     delete rhs_code;
 }
 
-void func_def::print() {
+void func_def::print(int t) {
 
 }
 
@@ -40,7 +40,7 @@ func_call::~func_call() {
     delete rhs;
 }
 
-void func_call::print() {
+void func_call::print(int t) {
 
 }
 
@@ -49,7 +49,7 @@ return_call::~return_call() {
     delete rhs;
 }
 
-void return_call::print() {
+void return_call::print(int t) {
 
 }
 
@@ -59,7 +59,7 @@ parameters::~parameters() {
         delete it;
 }
 
-void parameters::print() {
+void parameters::print(int t) {
 
 }
 
@@ -69,17 +69,17 @@ code::~code() {
         delete it;
 }
 
-void code::print() {
+void code::print(int t) {
 
 }
 
 // Identifier
-void identifier::print() {
+void identifier::print(int t) {
 
 }
 
 // Number
-void number::print() {
+void number::print(int t) {
 
 }
 
@@ -88,6 +88,6 @@ eval::~eval() {
     delete inside;
 }
 
-void eval::print() {
+void eval::print(int t) {
 
 }
