@@ -82,12 +82,3 @@ void identifier::print(int t) {
 void number::print(int t) {
 
 }
-
-// Evaluate
-eval::~eval() {
-    delete inside;
-}
-
-void eval::print(int t) {
-
-}

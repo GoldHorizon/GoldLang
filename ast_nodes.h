@@ -97,11 +97,4 @@ struct number : public expression { // Found as: 4, 8.6, 0x4F3, .04, 89. (Forced
     type type_info;
 };
 
-struct eval : public expression { // Found in: '( eval )'
-    ~eval();
-    virtual void print(int t);
-
-    expression* inside;
-};
-
 }
