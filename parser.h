@@ -3,9 +3,13 @@
 // Class for parser, generates AST for further usage
 #include <vector>
 #include <deque>
+#include <unordered_map>
 
 #include "token.h"
 #include "ast_nodes.h"
+#include "symbol.h"
+
+using umap = std::unordered_map<std::string, symbol*>;
 
 class parser {
     public:
@@ -13,8 +17,12 @@ class parser {
         void build_tree();
         void print_tree();
 
+        // Temporary interpretation method
+        int run_tree();
+
         ast::code*          create_code();
         ast::func_def*      create_func_definition();
+        ast::var_def*       create_var_definition();
         ast::func_call*     create_func_call();
         ast::return_call*   create_return();
 
@@ -30,5 +38,7 @@ class parser {
 
         ast::root* tree;
         std::deque<token*> tokens;
+
+        umap symbol_table;
 };
 
