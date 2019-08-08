@@ -55,16 +55,11 @@ ast::code* parser::create_code() {
         if (check_identifier()) {
             if (check_operator(":", 1))
             {
-                std::cout << "Found definition of ";
                 if (check_symbol("(", 2)) {
-                    std::cout << "function" << std::endl;
 
                     root->statement_list.push_back(create_func_definition());
                 } else if (check_identifier("", 2)) {
-                    std::cout << "variable" << std::endl;
-
-                    //root->statement_list.push_back(create_var_definition());
-                    report_error("Variable definitions not implemented");
+                    root->statement_list.push_back(create_var_definition());
                 } else {
                     report_error("Couldn't find correct definition at line %\n", front_token()->line);
                 }
@@ -91,9 +86,14 @@ ast::code* parser::create_code() {
         } else if (check_keyword("return")) {
             report_message ("Found return...\n");
 
-            root ->statement_list.push_back(create_return());
+            root->statement_list.push_back(create_return());
         } else {
             report_error ("Can't work with first two tokens: '%' and '%'\n", tokens[0]->str, tokens[1]->str);
+        }
+
+        if (error_count > 0) {
+            if (root) delete root;
+            return nullptr;
         }
     }
     return root;
@@ -183,6 +183,14 @@ ast::func_def* parser::create_func_definition() {
     eat_token(); // Remove {
 
     root->rhs_code = create_code();
+
+    return root;
+}
+
+ast::var_def* parser::create_var_definition() {
+    auto root = new ast::var_def;
+
+    // @todo
 
     return root;
 }
