@@ -86,14 +86,14 @@ namespace ast {
         std::vector<statement*> statement_list;
     };
     
-    struct identifier : public expression { // Found as: identifier
+    struct identifier : public expression {
         virtual void print(int t = 0);
         
         token token_info;
         type type_info;
     };
     
-    struct number : public expression { // Found as: 4, 8.6, 0x4F3, .04, 89. (Forced float?)
+    struct number : public expression{ // Found as: 4, 8.6, 0x4F3, .04, 89. (Forced float?)
         virtual void print(int t = 0);
         
         token token_info;
