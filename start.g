@@ -9,7 +9,7 @@
 //   name : (parameters) return_value {code}
 start : (int argc, string argv) int {
     // idea: 
-    name : "Nick";
+    //name : "Nick";
     //gender : string = "male";
 
     //age = 15 + 8.4;

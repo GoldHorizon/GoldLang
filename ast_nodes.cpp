@@ -59,6 +59,10 @@ var_def::~var_def() {
     if (rhs) delete rhs;
 }
 
+void var_def::print(int t) {
+    // @todo
+}
+
 // Function call
 func_call::~func_call() {
     if (rhs) delete rhs;
@@ -69,7 +73,7 @@ void func_call::print(int t) {
     report_message("% (", lhs->token_info.str);
     
     // Parameters
-    rhs->print(0);
+    rhs->print();
     
     report_message(");\n");
 }
@@ -85,26 +89,27 @@ void return_call::print(int t) {
     
     // Expression
     //rhs->print(0);
-    report_message("?"); // TEMP, @cleanup
+    report_message("?"); // TEMP, @cleanup after expressions
     
     report_message(";\n");
 }
 
 // Parameters
 parameters::~parameters() {
-    for (auto it : identifier_list)
+    for (auto it : parameter_list)
         delete it;
 }
 
 void parameters::print(int t) {
     bool comma = false;
-    for (auto p : identifier_list) {
+    for (auto p : parameter_list) {
         if (!comma)
             comma = true;
         else
             report_message(", ");
         
-        report_message("%", p->token_info.str);
+        //report_message("%", p->token_info.str);
+        p->print();
     } 
 }
 
@@ -122,12 +127,12 @@ void code::print(int t) {
 
 // Identifier
 void identifier::print(int t) {
-    
+    report_message("%", token_info.str);
 }
 
 // Number
 void number::print(int t) {
-    
+    report_message("%", token_info.str);
 }
 
 // Evaluate

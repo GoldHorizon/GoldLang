@@ -1,6 +1,6 @@
+// All nodes used by the AST
 #pragma once
 
-// All nodes used by the AST
 #include <vector>
 #include <string>
 
@@ -11,7 +11,7 @@ namespace ast {
     
     struct node {
         virtual ~node() = 0;
-        virtual void print(int t) = 0;
+        virtual void print(int t = 0) = 0;
     };
     
     struct code;
@@ -76,7 +76,7 @@ namespace ast {
         ~parameters();
         virtual void print(int t = 0);
         
-        std::vector<identifier*> identifier_list;
+        std::vector<expression*> parameter_list;
     };
     
     struct code : public node {
@@ -93,14 +93,14 @@ namespace ast {
         type type_info;
     };
     
-    struct number : public expression{ // Found as: 4, 8.6, 0x4F3, .04, 89. (Forced float?)
+    struct number : public expression {
         virtual void print(int t = 0);
         
         token token_info;
         type type_info;
     };
     
-    struct eval : public expression { // Found in: '( eval )'
+    struct eval : public expression {
         ~eval();
         virtual void print(int t = 0);
         
