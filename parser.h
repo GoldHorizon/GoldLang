@@ -13,32 +13,33 @@ using umap = std::unordered_map<std::string, symbol*>;
 
 class parser {
     public:
-        parser(std::deque<token*>& token_list);
-        void build_tree();
-        void print_tree();
-
-        // Temporary interpretation method
-        int run_tree();
-
-        ast::code*          create_code();
-        ast::func_def*      create_func_definition();
-        ast::var_def*       create_var_definition();
-        ast::func_call*     create_func_call();
-        ast::return_call*   create_return();
-
+    parser(std::deque<token*>& token_list);
+    void build_tree();
+    void print_tree();
+    
+    // Temporary interpretation method
+    int run_tree();
+    
+    ast::code*          create_code();
+    ast::func_def*      create_func_definition();
+    ast::var_def*       create_var_definition();
+    ast::expression*    create_expression();
+    ast::func_call*     create_func_call();
+    ast::return_call*   create_return();
+    
     private:
-        token* eat_token();
-        token* front_token();
-
-        bool check_token        (token_type t, std::string s = "", int index = 0);
-        bool check_keyword      (std::string s = "", int index = 0);
-        bool check_identifier   (std::string s = "", int index = 0);
-        bool check_symbol       (std::string s = "", int index = 0);
-        bool check_operator     (std::string s = "", int index = 0);
-
-        ast::root* tree;
-        std::deque<token*> tokens;
-
-        umap symbol_table;
+    token* eat_token();
+    token* front_token();
+    
+    bool check_token        (token_type t, std::string s = "", int index = 0);
+    bool check_keyword      (std::string s = "", int index = 0);
+    bool check_identifier   (std::string s = "", int index = 0);
+    bool check_symbol       (std::string s = "", int index = 0);
+    bool check_operator     (std::string s = "", int index = 0);
+    
+    ast::root* tree;
+    std::deque<token*> tokens;
+    
+    umap symbol_table;
 };
 
