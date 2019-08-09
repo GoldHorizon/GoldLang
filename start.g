@@ -709,5 +709,9 @@ start : (int argc, string argv) int {
     print ("I am %.", "Nick Francke");
     print ("My name is %! My age is %.", name, age);
 
+    print ("Hello there!\n");
+    print ("I am %.", "Nick Francke\n");
+    print ("My name is %! My age is %, I'm a % with a % year old daughter.\n", name, age, gender, other_age);
+
     return 0;
 }
