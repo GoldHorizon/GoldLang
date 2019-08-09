@@ -24,11 +24,11 @@ statement::~statement() {
     if (lhs) delete lhs;
 }
 
-// Definition
-definition::~definition() {}
-
 // Expression
 expression::~expression() {}
+
+// Definition
+definition::~definition() {}
 
 // Function definition
 func_def::~func_def() {
@@ -54,15 +54,6 @@ void func_def::print(int t) {
     
 }
 
-// Variable definition
-var_def::~var_def() {
-    if (rhs) delete rhs;
-}
-
-void var_def::print(int t) {
-    // @todo
-}
-
 // Function call
 func_call::~func_call() {
     if (rhs) delete rhs;
@@ -76,6 +67,15 @@ void func_call::print(int t) {
     rhs->print();
     
     report_message(");\n");
+}
+
+// Variable definition
+var_def::~var_def() {
+    if (rhs) delete rhs;
+}
+
+void var_def::print(int t) {
+    // @todo
 }
 
 // Return call
@@ -141,5 +141,7 @@ eval::~eval() {
 }
 
 void eval::print(int t) {
-    
+    report_message("(");
+    inside->print();
+    report_message(")");
 }

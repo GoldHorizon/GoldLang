@@ -28,7 +28,7 @@ class parser {
     ast::return_call*   create_return();
     
     private:
-    token* eat_token();
+    void eat_token();
     token* front_token();
     
     bool check_token        (token_type t, std::string s = "", int index = 0);

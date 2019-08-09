@@ -30,12 +30,16 @@ namespace ast {
         identifier* lhs;
     };
     
-    struct definition : public statement {
-        virtual ~definition() = 0;
+    struct expression : public statement {
+        virtual ~expression() = 0;
     };
     
-    struct expression : public node {
-        virtual ~expression() = 0;
+    struct assignment : public statement {
+        expression* rhs;
+    };
+    
+    struct definition : public statement {
+        virtual ~definition() = 0;
     };
     
     struct func_def : public definition {
@@ -47,7 +51,7 @@ namespace ast {
         code* rhs_code;
     };
     
-    struct func_call : public statement {
+    struct func_call : public expression {
         ~func_call();
         virtual void print(int t = 0);
         
@@ -60,10 +64,6 @@ namespace ast {
         
         expression* rhs;
     };
-    
-    //struct assignment : public statement {
-    //  expression* rhs;
-    //};
     
     struct return_call : public statement {
         ~return_call();
@@ -86,6 +86,12 @@ namespace ast {
         std::vector<statement*> statement_list;
     };
     
+    struct operation : public expression {
+        virtual void print(int t = 0);
+        
+        token token_info;
+    };
+    
     struct identifier : public expression {
         virtual void print(int t = 0);
         
@@ -105,6 +111,23 @@ namespace ast {
         virtual void print(int t = 0);
         
         expression* inside;
+    };
+    
+    struct binary_expr : public expression {
+        ~binary_expr();
+        virtual void print(int t = 0);
+        
+        expression* left;
+        operation*  op;
+        expression* right;
+    };
+    
+    struct unary_expr : public expression {
+        ~unary_expr();
+        virtual void print(int t = 0);
+        
+        expression* expr;
+        operation*  op;
     };
     
 }

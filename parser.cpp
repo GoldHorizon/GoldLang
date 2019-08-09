@@ -1,4 +1,5 @@
 #include <iostream>
+#include <stack>
 
 #include "parser.h"
 #include "reporting.h"
@@ -21,12 +22,11 @@ void parser::print_tree() {
         tree->print();
 }
 
-token* parser::eat_token() {
-    auto t = tokens.front();
-    
-    tokens.pop_front();
-    
-    return t;
+void parser::eat_token() {
+    if (tokens.size() > 0) {
+        delete tokens.front();
+        tokens.pop_front();
+    }
 }
 
 token* parser::front_token() {
@@ -37,12 +37,9 @@ ast::code* parser::create_code() {
     
     auto root = new ast::code;
     
-    int index = 0;
-    
     // Consider removing this, may not be necessary, simply for safety
     if (check_symbol("{")) {
-        ++index;
-        
+        eat_token();
         report_message("Note: Line % - Code begins with {, skipping that token\n", front_token()->line);
     }
     
@@ -64,14 +61,10 @@ ast::code* parser::create_code() {
                     // Struct definition @todo
                     //
                     //root->statement_list.push_back
-                } else if (check_keyword("", 2)) {
-                    // Static variable definition
+                } else if (check_token(token_type::IDENTIFIER, "", 2) || check_token(token_type::KEYWORD, "", 2) ||
+                           check_token(token_type::STRING, "", 2) ||check_token(token_type::CONSTANT, "" , 2)) {
                     
-                    root->statement_list.push_back (create_var_definition());
-                    
-                } else if (check_identifier("", 2)) {
-                    // Dynamic variable definition (Maybe?)
-                    //root->statement_list.push_back(create_var_definition());
+                    root->statement_list.push_back(create_var_definition());
                 } else {
                     report_error("Couldn't find correct definition at line %\n", front_token()->line);
                 }
@@ -154,8 +147,12 @@ ast::func_def* parser::create_func_definition() {
             delete id;
             return nullptr;
         }
-        auto tstr = eat_token()->str;
-        id->token_info = *eat_token();
+        auto tstr = front_token()->str;
+        eat_token();
+        id->token_info = *front_token();
+        eat_token();
+        
+        // Switch on type string
         if (tstr == "bool") id->type_info = type::t_bool;
         else if (tstr == "int") id->type_info = type::t_int;
         else if (tstr == "float") id->type_info = type::t_float;
@@ -188,7 +185,9 @@ ast::func_def* parser::create_func_definition() {
     if (front_token()->str == "string")
         root->rhs_ret_type = type::t_string;
     
-    eat_token();
+    // @todo: account/allow for pointer/array types (2 or more tokens)
+    
+    eat_token(); // Eat the type token
     
     // Code
     report_message("Grabbing code...\n");
@@ -205,13 +204,57 @@ ast::var_def* parser::create_var_definition() {
     root->lhs = new ast::identifier;
     
     // Variable name
-    root->lhs->token_info = *eat_token();
-    report_message("Variable name: %\n", root->lhs->token_info.str);
+    root->lhs->token_info = *front_token();
     eat_token();
+    report_message("Variable name: %\n", root->lhs->token_info.str);
+    eat_token(); // Eat ':'
     
     // Get expression details
+    root->rhs = create_expression();
     
-    return root;
+    if (check_symbol(";")) {
+        eat_token();
+        return root;
+    }
+    
+    report_error("Didn't find ';' after expression on line %\n", front_token()->line);
+    return nullptr;
+}
+
+ast::expression* parser::create_expression() {
+    // Need to read the next few tokens and determine what to allocate
+    /*
+    switch (front_token()->type) {
+    
+        default:
+        {
+            report_error("Expression not correctly evaluated at line %", front_token()->line);
+        }
+    }
+    */
+    
+    // Maybe scan to ';', then work backwards?
+    std::stack<token*> expr_stack;
+    auto semi_colon = tokens.begin();
+    
+    while ((*semi_colon)->str != ";") semi_colon++;
+    
+    for (auto it : tokens) {
+        if (it->str == ";") break;
+        
+        expr_stack.push(it);
+    }
+    
+    while(expr_stack.size() > 0) {
+        auto tok = expr_stack.top();
+        report_message("Stack token %\n", tok->str);
+        expr_stack.pop();
+    }
+    
+    // Eat all tokens until the ';' at the end
+    while (front_token()->str != ";") eat_token();
+    return new ast::identifier;
+    //return nullptr;
 }
 
 ast::func_call* parser::create_func_call() {
@@ -220,7 +263,8 @@ ast::func_call* parser::create_func_call() {
     root->lhs = new ast::identifier;
     root->rhs = new ast::parameters;
     
-    root->lhs->token_info = *eat_token();
+    root->lhs->token_info = *front_token();
+    eat_token();
     
     if (check_symbol("(")) eat_token();
     else {
@@ -232,7 +276,9 @@ ast::func_call* parser::create_func_call() {
     while (!check_symbol(")")) {
         auto id = new ast::identifier;
         
-        id->token_info = *eat_token();
+        id->token_info = *front_token();
+        eat_token();
+        
         switch (id->token_info.type) {
             case token_type::STRING:
             id->type_info = type::t_string;
