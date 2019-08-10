@@ -119,14 +119,13 @@ void lexer::read_file(std::string file_name) {
 	for (int i = 0; i < THREAD_COUNT; i++)
 		jobs[i] = std::thread(&lexer::thread_file, this, std::ref(file));
 
-	// Make this thread help do work too.
+	// Make this main thread help do work too.
 	thread_file(file);
 
 	for (int i = 0; i < THREAD_COUNT; i++)
 		if (jobs[i].joinable()) jobs[i].join();
 
 	delete [] jobs;
-	//
 
     file.close();
 }
@@ -137,10 +136,13 @@ void lexer::thread_file(std::ifstream& file) {
 	int line_num;
 
 	while (file) {
-		while (line_tokens.size() > 0) line_tokens.pop_back();
+		line_tokens.clear();
+		//line_str = "";
 
 		// Protect the file from being read out of order.
 		file_mutex.lock();
+
+		if (!file) return;
 
 		line_num = ++current_line_num;
 		std::getline(file, line_str);
@@ -149,21 +151,25 @@ void lexer::thread_file(std::ifstream& file) {
 		// End mutex protection
 
 		if (line_str == "") continue;
+		//if (!file) return;
 
 		tokenize_line(line_tokens, line_str, line_num);
 
-		int count = 1;
-
 		// Protect token vector from being manipulated by other threads
 		token_mutex.lock();
-		
-		auto it = tokens.begin();
-		while (count < line_num && it != tokens.end()) {
-			++it;
-			++count;
-		}
 
-		tokens.insert(it, line_tokens);
+		if (line_num - 1 == tokens.size()) {
+			// Simply push new tokens onto end of vector
+			tokens.push_back(line_tokens);
+
+		} else  {
+			// May have to resize the vector
+			if (line_num - 1 > tokens.size())
+				tokens.resize(line_num);
+
+			// Then insert tokens
+			tokens[line_num - 1] = line_tokens;
+		}
 
 		token_mutex.unlock();
 		// Unlock token vector mutex
@@ -229,7 +235,12 @@ void lexer::print_tokens() {
 	report_message("Tokens:\n");
 
 	for (auto d : tokens) {
-		report_message("\tLine %:\t", ++line_num);
+		++line_num;
+
+		// More debug
+		if (line_num < 700) continue;
+
+		report_message("\tLine %:\t", line_num);
 		for (auto t : d) {
 			report_message("%", t->str);
 		}
