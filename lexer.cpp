@@ -1,11 +1,16 @@
 #include <fstream>
 #include <iostream>
 #include <thread>
+#include <mutex>
 
 #include "lexer.h"
 #include "reporting.h"
 
-const int THREAD_COUNT = std::thread::hardware_concurrency();
+int current_line_num = 0;
+std::mutex file_mutex;
+std::mutex token_mutex;
+
+const int THREAD_COUNT = std::thread::hardware_concurrency() - 1;
 
 re_type::~re_type() {
     delete re;
@@ -87,15 +92,18 @@ lexer::lexer() {
 }
 
 lexer::~lexer() {
-    for (auto t : tokens)  delete t;
+    for (auto d : tokens)  
+		for (auto t : d)
+			delete t;
+
     for (auto r : re_list) delete r;
 }
 
 void lexer::read_file(std::string file_name) {
+	report_message("Thread count = %\n", THREAD_COUNT);
     //report_message("Begin reading file '%'\n", file_name);
     std::ifstream file;
     std::string line;
-    int line_num = 1;
 
     file.open(file_name);
 
@@ -105,20 +113,64 @@ void lexer::read_file(std::string file_name) {
         return;
     }
 
-    // @todo: Make each line work concurrently on another thread
-    std::getline(file, line);
-    while (file) {
-		tokenize_line(line, line_num);
-        std::getline(file, line);
-        line_num++;
-    }
+	// Multi-thread here!
+	std::thread* jobs = new std::thread[THREAD_COUNT];
+
+	for (int i = 0; i < THREAD_COUNT; i++)
+		jobs[i] = std::thread(&lexer::thread_file, this, std::ref(file));
+
+	// Make this thread help do work too.
+	thread_file(file);
+
+	for (int i = 0; i < THREAD_COUNT; i++)
+		if (jobs[i].joinable()) jobs[i].join();
+
+	delete [] jobs;
+	//
 
     file.close();
 }
 
-std::vector<token*> lexer::tokenize_line(std::string line, int line_num) {
-	std::vector<token*> line_tokens;
+void lexer::thread_file(std::ifstream& file) {
+	std::deque<token*> line_tokens;
+	std::string line_str;
+	int line_num;
 
+	while (file) {
+		while (line_tokens.size() > 0) line_tokens.pop_back();
+
+		// Protect the file from being read out of order.
+		file_mutex.lock();
+
+		line_num = ++current_line_num;
+		std::getline(file, line_str);
+
+		file_mutex.unlock();
+		// End mutex protection
+
+		if (line_str == "") continue;
+
+		tokenize_line(line_tokens, line_str, line_num);
+
+		int count = 1;
+
+		// Protect token vector from being manipulated by other threads
+		token_mutex.lock();
+		
+		auto it = tokens.begin();
+		while (count < line_num && it != tokens.end()) {
+			++it;
+			++count;
+		}
+
+		tokens.insert(it, line_tokens);
+
+		token_mutex.unlock();
+		// Unlock token vector mutex
+	}
+}
+
+void lexer::tokenize_line(std::deque<token*>& line_tokens, std::string line, int line_num) {
 	int column_num = 0;
 	// Read tokens from line
 	if (line.length() > 0) {
@@ -160,14 +212,27 @@ std::vector<token*> lexer::tokenize_line(std::string line, int line_num) {
 		}
 	}
 
-	return line_tokens;
+	return;
 }
 
 void lexer::push_token(token* t) {
-    tokens.push_back(t);
+    tokens.back().push_back(t);
 }
 
-void lexer::push_tokens(std::vector<token*> t) {
-	for (auto tok : t)
-		tokens.push_back(tok);
+void lexer::push_tokens(std::deque<token*> t) {
+	tokens.push_back(t);
+}
+
+void lexer::print_tokens() {
+	int line_num = 0;
+
+	report_message("Tokens:\n");
+
+	for (auto d : tokens) {
+		report_message("\tLine %:\t", ++line_num);
+		for (auto t : d) {
+			report_message("%", t->str);
+		}
+		report_message("\n");
+	}
 }

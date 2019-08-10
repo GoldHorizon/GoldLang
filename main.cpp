@@ -15,6 +15,8 @@ int main (int argc, char** argv) {
 
 	timer::stop();
 
+	l.print_tokens();
+
 	report_message("Time taken: % milliseconds\n", timer::time());
 
     //parser p(l.tokens);
