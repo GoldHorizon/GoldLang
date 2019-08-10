@@ -60,8 +60,8 @@ lexer::lexer() {
 }
 
 lexer::~lexer() {
-    for (auto t : tokens)  delete t;
-    for (auto r : re_list) delete r;
+    for (auto t : tokens)  if (t) delete t;
+    for (auto r : re_list) if (r) delete r;
 }
 
 void lexer::read_file(std::string file_name) {

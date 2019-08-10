@@ -26,8 +26,13 @@ namespace ast {
     
     struct statement : public node {
         virtual ~statement() = 0;
+    };
+    
+    struct code : public node {
+        ~code();
+        virtual void print(int t = 0);
         
-        identifier* lhs;
+        std::vector<statement*> statement_list;
     };
     
     struct expression : public statement {
@@ -35,11 +40,16 @@ namespace ast {
     };
     
     struct assignment : public statement {
+        virtual ~assignment();
+
         expression* rhs;
+        identifier* lhs;
     };
     
     struct definition : public statement {
         virtual ~definition() = 0;
+        
+        identifier* lhs;
     };
     
     struct func_def : public definition {
@@ -55,6 +65,7 @@ namespace ast {
         ~func_call();
         virtual void print(int t = 0);
         
+        identifier* lhs;
         parameters* rhs;
     };
     
@@ -71,19 +82,20 @@ namespace ast {
         
         expression* rhs;
     };
+
+    struct parameter : public node {
+        ~parameter();
+        virtual void print(int t = 0);
+
+        identifier* name;
+        type param_type;
+    };
     
     struct parameters : public node {
         ~parameters();
         virtual void print(int t = 0);
         
-        std::vector<expression*> parameter_list;
-    };
-    
-    struct code : public node {
-        ~code();
-        virtual void print(int t = 0);
-        
-        std::vector<statement*> statement_list;
+        std::vector<parameter*> parameter_list;
     };
     
     struct operation : public expression {
@@ -96,14 +108,14 @@ namespace ast {
         virtual void print(int t = 0);
         
         token token_info;
-        type type_info;
+        //type type_info;
     };
     
     struct number : public expression {
         virtual void print(int t = 0);
         
         token token_info;
-        type type_info;
+        //type type_info;
     };
     
     struct eval : public expression {

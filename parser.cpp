@@ -24,7 +24,8 @@ void parser::print_tree() {
 
 void parser::eat_token() {
     if (tokens.size() > 0) {
-        delete tokens.front();
+		// Don't delete tokens here, lexer still holds them
+        //delete tokens.front();
         tokens.pop_front();
     }
 }
@@ -107,7 +108,6 @@ ast::code* parser::create_code() {
 ast::return_call* parser::create_return() {
     auto root = new ast::return_call;
     
-    root->lhs = new ast::identifier;
     root->rhs = nullptr;
     
     // Temporary @todo
@@ -136,7 +136,7 @@ ast::func_def* parser::create_func_definition() {
     
     // Function parameters
     while (!check_symbol(")")) {
-        auto id = new ast::identifier;
+        auto p = new ast::parameter;
         
         if (front_token()->type != token_type::KEYWORD) {
             report_error("Expected type in parameters on line % - Token %\n", front_token()->line, front_token()->str);
@@ -144,30 +144,31 @@ ast::func_def* parser::create_func_definition() {
             if (root) 
                 delete root;
             
-            delete id;
+            delete p;
             return nullptr;
         }
         auto tstr = front_token()->str;
         eat_token();
-        id->token_info = *front_token();
+        p->name = new ast::identifier;
+        p->name->token_info = *front_token();
         eat_token();
         
         // Switch on type string
-        if (tstr == "bool") id->type_info = type::t_bool;
-        else if (tstr == "int") id->type_info = type::t_int;
-        else if (tstr == "float") id->type_info = type::t_float;
-        else if (tstr == "string") id->type_info = type::t_string;
+        if (tstr == "bool") p->param_type = type::t_bool;
+        else if (tstr == "int") p->param_type = type::t_int;
+        else if (tstr == "float") p->param_type = type::t_float;
+        else if (tstr == "string") p->param_type = type::t_string;
         else {
             report_error("Invalid type in parameters on line %\n", front_token()->line);
             
             if (root) 
                 delete root;
             
-            delete id;
+            delete p;
             return nullptr;
         }
         
-        root->rhs_params->parameter_list.push_back(id);
+        root->rhs_params->parameter_list.push_back(p);
         
         if (check_operator(",")) eat_token();
     }
@@ -222,17 +223,6 @@ ast::var_def* parser::create_var_definition() {
 }
 
 ast::expression* parser::create_expression() {
-    // Need to read the next few tokens and determine what to allocate
-    /*
-    switch (front_token()->type) {
-    
-        default:
-        {
-            report_error("Expression not correctly evaluated at line %", front_token()->line);
-        }
-    }
-    */
-    
     // Maybe scan to ';', then work backwards?
     std::stack<token*> expr_stack;
     auto semi_colon = tokens.begin();
@@ -244,17 +234,45 @@ ast::expression* parser::create_expression() {
         
         expr_stack.push(it);
     }
+
+    ast::expression* root = nullptr;
     
     while(expr_stack.size() > 0) {
         auto tok = expr_stack.top();
-        report_message("Stack token %\n", tok->str);
+        ast::expression* current;
+
+        switch (tok->type) {
+            case token_type::KEYWORD: {
+                auto id = new ast::identifier;
+
+                id->token_info = *tok;
+                //id->type_info = type::
+
+                current = id;
+            } break;
+
+            case token_type::IDENTIFIER: {
+
+            } break;
+
+            case token_type::CONSTANT: {
+
+            } break;
+
+            default: {
+
+            }
+        }
+
+        // @cleanup
+        root = current;
+
         expr_stack.pop();
     }
     
     // Eat all tokens until the ';' at the end
     while (front_token()->str != ";") eat_token();
-    return new ast::identifier;
-    //return nullptr;
+    return root;
 }
 
 ast::func_call* parser::create_func_call() {
@@ -274,21 +292,22 @@ ast::func_call* parser::create_func_call() {
     
     // Function parameters
     while (!check_symbol(")")) {
-        auto id = new ast::identifier;
+        auto p = new ast::parameter;
         
-        id->token_info = *front_token();
+        p->name = new ast::identifier;
+        p->name->token_info = *front_token();
         eat_token();
         
-        switch (id->token_info.type) {
+        switch (front_token()->type) {
             case token_type::STRING:
-            id->type_info = type::t_string;
+            p->param_type = type::t_string;
             break;
             //case token_type::CONSTANT:
             default:
-            id->type_info = type::t_null;
+            p->param_type = type::t_null;
         }
         
-        root->rhs->parameter_list.push_back(id);
+        root->rhs->parameter_list.push_back(p);
         
         if (check_operator(",")) eat_token();
     }
