@@ -1,8 +1,11 @@
 #include <fstream>
 #include <iostream>
+#include <thread>
 
 #include "lexer.h"
 #include "reporting.h"
+
+const int THREAD_COUNT = std::thread::hardware_concurrency();
 
 re_type::~re_type() {
     delete re;
@@ -89,11 +92,10 @@ lexer::~lexer() {
 }
 
 void lexer::read_file(std::string file_name) {
-    report_message("Begin reading file '%'\n", file_name);
+    //report_message("Begin reading file '%'\n", file_name);
     std::ifstream file;
     std::string line;
     int line_num = 1;
-    int column_num = 0;
 
     file.open(file_name);
 
@@ -106,46 +108,7 @@ void lexer::read_file(std::string file_name) {
     // @todo: Make each line work concurrently on another thread
     std::getline(file, line);
     while (file) {
-        // Read tokens from line
-        if (line.length() > 0) {
-            std::string current_line = line;
-
-            while (current_line[0] == ' ' || current_line[0] == '\t') {
-                // @cleanup: This is SUPER inefficient I feel. 
-                // Maybe use pointer to beginning of string, increment to search?
-                current_line = current_line.substr(1);
-            }
-
-            while (current_line != "") {
-                bool matched = false;
-                std::smatch re_match;
-
-                for (auto re_t : re_list) {
-                    if (std::regex_search(current_line, re_match, *(re_t->re))) {
-                        if (re_t->type != token_type::NONE) {
-                            report_message("Found: %\n", re_match.str());
-
-                            push_token(new token(re_t->type, re_match.str(), line_num, column_num));
-                        }
-
-                        current_line = re_match.suffix();
-                        matched = true;
-                        break;
-                    }
-                }
-
-                if (!matched) {
-                    report_error("Error: Couldn't match on line %: %\n", line_num, current_line);
-                    return;
-                }
-
-                while (current_line[0] == ' ' || current_line[0] == '\t') {
-                    // @cleanup: Same as above
-                    current_line = current_line.substr(1);
-                }
-            }
-        }
-
+		tokenize_line(line, line_num);
         std::getline(file, line);
         line_num++;
     }
@@ -153,6 +116,58 @@ void lexer::read_file(std::string file_name) {
     file.close();
 }
 
+std::vector<token*> lexer::tokenize_line(std::string line, int line_num) {
+	std::vector<token*> line_tokens;
+
+	int column_num = 0;
+	// Read tokens from line
+	if (line.length() > 0) {
+		std::string current_line = line;
+
+		while (current_line[0] == ' ' || current_line[0] == '\t') {
+			// @cleanup: This is SUPER inefficient I feel. 
+			// Maybe use pointer to beginning of string, increment to search?
+			current_line = current_line.substr(1);
+		}
+
+		while (current_line != "") {
+			bool matched = false;
+			std::smatch re_match;
+
+			for (auto re_t : re_list) {
+				if (std::regex_search(current_line, re_match, *(re_t->re))) {
+					if (re_t->type != token_type::NONE) {
+						//report_message("Found: %\n", re_match.str());
+
+						line_tokens.push_back(new token(re_t->type, re_match.str(), line_num, column_num));
+					}
+
+					current_line = re_match.suffix();
+					matched = true;
+					break;
+				}
+			}
+
+			if (!matched) {
+				report_error("Error: Couldn't match on line %: %\n", line_num, current_line);
+				break;
+			}
+
+			while (current_line[0] == ' ' || current_line[0] == '\t') {
+				// @cleanup: Same as above
+				current_line = current_line.substr(1);
+			}
+		}
+	}
+
+	return line_tokens;
+}
+
 void lexer::push_token(token* t) {
     tokens.push_back(t);
+}
+
+void lexer::push_tokens(std::vector<token*> t) {
+	for (auto tok : t)
+		tokens.push_back(tok);
 }

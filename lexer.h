@@ -23,8 +23,10 @@ class lexer {
         lexer();
         ~lexer();
         void read_file(std::string file_name);
+		std::vector<token*> tokenize_line (std::string line, int line_num);
 
         void push_token(token* t);
+        void push_tokens(std::vector<token*> t);
 
         std::deque<token*> tokens;
     private:

@@ -9,14 +9,914 @@
 //   name : (parameters) return_value {code}
 start : () int {
     // idea: 
-    //name : "Nick";
-    //gender : string = "male";
+    name : "Nick";
+    gender : string = "male";
 
-    //age = 15 + 8.4;
+    age = 15 + 8.4;
 
     print ("Hello there!");
-    //print ("I am %.", "Nick Francke");
-    //print ("My name is %! My age is %.", name, age);
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
+
+    name : "Nick";
+    gender : string = "male";
+
+    age = 15 + 8.4;
+
+    print ("Hello there!");
+    print ("I am %.", "Nick Francke");
+    print ("My name is %! My age is %.", name, age);
 
     return 0;
 }
