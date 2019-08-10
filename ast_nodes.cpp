@@ -20,15 +20,20 @@ void root::print(int t) {
 }
 
 // Statement
-statement::~statement() {
-    if (lhs) delete lhs;
-}
+statement::~statement() {}
 
 // Expression
 expression::~expression() {}
 
 // Definition
-definition::~definition() {}
+definition::~definition() {
+    if (lhs) delete lhs;
+}
+
+// Assignment
+assignment::~assignment() {
+    if (lhs) delete lhs;
+}
 
 // Function definition
 func_def::~func_def() {
@@ -92,6 +97,15 @@ void return_call::print(int t) {
     report_message("?"); // TEMP, @cleanup after expressions
     
     report_message(";\n");
+}
+
+// Parameter
+parameter::~parameter() {
+    if (name) delete name;
+}
+
+void parameter::print(int t) {
+    report_message("%", name->token_info.str);
 }
 
 // Parameters
