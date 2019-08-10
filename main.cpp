@@ -9,6 +9,9 @@
 extern uint16_t warning_count;
 extern uint16_t error_count;
 
+extern uint16_t warning_count;
+extern uint16_t error_count;
+
 int main (int argc, char** argv) {
 
     lexer* l = new lexer;
@@ -19,11 +22,6 @@ int main (int argc, char** argv) {
 
 	report_message("Time taken: % milliseconds\n", timer::time());
 	l->print_tokens();
-
-    if (warning_count > 0 || error_count > 0) {
-        report_message("Warnings: % | Errors: %\n", warning_count, error_count);
-        return 1;
-    }
 
     //parser* p = new parser(l->tokens);
     //p->build_tree();
@@ -41,6 +39,16 @@ int main (int argc, char** argv) {
     //} else {
 	//	report_message("Compiler finished with no issues!\n");
 	//}
+
+	//delete p;
+	//report_message("Parser memory freed\n");
+
+    if (warning_count > 0 || error_count > 0) {
+        report_message("Warnings: % | Errors: %\n", warning_count, error_count);
+        return 1;
+    } else {
+		report_message("Compiler finished with no issues!\n");
+	}
 
 	//delete p;
 	//report_message("Parser memory freed\n");
