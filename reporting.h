@@ -2,8 +2,8 @@
 
 #include <string>
 
-static uint16_t warning_count = 0;
-static uint16_t error_count = 0;
+extern uint16_t warning_count;
+extern uint16_t error_count;
 
 void report_tabs(int t);
 

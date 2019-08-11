@@ -14,9 +14,7 @@ root::~root() {
 }
 
 void root::print(int t) {
-    report_message("\n---- NODE TREE ----\n\n");
-    statement_list->print(t + 1);
-    report_message("\n--- END OF TREE ---\n");
+    statement_list->print(t);
 }
 
 // Statement

@@ -6,11 +6,8 @@
 #include "reporting.h"
 #include "clock.h"
 
-extern uint16_t warning_count;
-extern uint16_t error_count;
-
-extern uint16_t warning_count;
-extern uint16_t error_count;
+uint16_t warning_count;
+uint16_t error_count;
 
 int main (int argc, char** argv) {
 
@@ -20,36 +17,34 @@ int main (int argc, char** argv) {
     l->read_file("start.g");
 	timer::stop();
 
-	report_message("Time taken: % milliseconds\n", timer::time());
-	l->print_tokens();
+    if (warning_count > 0 || error_count > 0) {
+        report_message("\nWarnings: % | Errors: %\n", warning_count, error_count);
+        return 1;
+    } else {
+		report_message("Lexer time taken: % milliseconds\n", timer::time());
+		l->print_tokens();
+	}
 
     parser* p = new parser(l->tokens);
+
+	timer::start();
     p->build_tree();
+	timer::stop();
 
     if (warning_count > 0 || error_count > 0) {
-        report_message("Warnings: % | Errors: %\n", warning_count, error_count);
+        report_message("\nWarnings: % | Errors: %\n", warning_count, error_count);
         return 1;
-    }
+    } else {
+		report_message("Parser time taken: % milliseconds\n", timer::time());
+	}
 
     p->print_tree();
-
-    if (warning_count > 0 || error_count > 0) {
-        report_message("Warnings: % | Errors: %\n", warning_count, error_count);
-        return 1;
-    } else {
-		report_message("Compiler finished with no issues!\n");
-	}
-
-    if (warning_count > 0 || error_count > 0) {
-        report_message("Warnings: % | Errors: %\n", warning_count, error_count);
-        return 1;
-    } else {
-		report_message("Compiler finished with no issues!\n");
-	}
 
 	delete p;
 	report_message("Parser memory freed\n");
 	
 	delete l;
 	report_message("Lexer memory freed\n");
+
+	return 0;
 }

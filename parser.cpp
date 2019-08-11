@@ -18,8 +18,11 @@ void parser::build_tree() {
 }
 
 void parser::print_tree() {
-    if (tree != nullptr)
+    if (tree != nullptr) {
+		report_message("\n---- NODE TREE ----\n\n");
         tree->print();
+		report_message("\n--- END OF TREE ---\n\n");
+	}
 }
 
 void parser::eat_token() {
@@ -56,19 +59,18 @@ token* parser::front_token() {
 ast::code* parser::create_code() {
     
     auto root = new ast::code;
+	bool block = false; // Whether this is just a code block (perhaps as part of a definition of a function or struct), or just straight code in the file.
     
     // Consider removing this, may not be necessary, simply for safety
     if (check_symbol("{")) {
         eat_token();
-        report_message("Note: Line % - Code begins with {, skipping that token\n", front_token()->line);
+		block = true;
     }
     
     report_message("Begin code tokens\n");
     
-    // @todo: Need a way for index to advance correct amount each time we look at a new statement
     while (!check_symbol("}")) {
-        report_message("Token: '%' at %:%\n", front_token()->str, front_token()->line, front_token()->column);
-
+		// Determine what type of token is first, then look ahead to see whats next
         if (check_identifier()) {
             if (check_operator(":", 1))
             {
@@ -77,31 +79,29 @@ ast::code* parser::create_code() {
                     
                     root->statement_list.push_back(create_func_definition());
                     
-                    //} else if (check_symbol("{", 2)) {
-                    // Struct definition @todo
-                    //
-                    //root->statement_list.push_back
-                } else if (check_token(token_type::IDENTIFIER, "", 2) || check_token(token_type::KEYWORD, "", 2) ||
-                           check_token(token_type::STRING, "", 2) ||check_token(token_type::CONSTANT, "" , 2)) {
-                    
+                } else if (check_token(token_type::IDENTIFIER, "", 2) || check_token(token_type::KEYWORD, "", 2) || check_token(token_type::STRING, "", 2) ||check_token(token_type::CONSTANT, "" , 2)) {
+					// Variable definition
+
                     root->statement_list.push_back(create_var_definition());
                 } else {
+					// Need: struct definitions
                     report_error("Couldn't find correct definition at line %\n", front_token()->line);
                 }
             }
             
             else if (check_operator("=", 1)) {
-            	report_message("Found variable assignment\n");
+				// Assignment
+            	//report_message("Found assignment\n");
 
 				//root->statement_list.push_back(create_var_assignment());
 
-				// DEBUG
+				// DEBUG (To get rid of tokens for now)
 				while (front_token()->str != ";") eat_token();
 				eat_token();
             }
             
             else if (check_symbol("(", 1)) {
-                report_message("Found function call\n");
+                //report_message("Found function call\n");
                 
                 root->statement_list.push_back(create_func_call());
             }
@@ -111,22 +111,18 @@ ast::code* parser::create_code() {
                 return nullptr;
             }
         } else if (check_keyword("print")) {
-            report_message ("Found print...\n");
+            //report_message ("Found print...\n");
             
             root->statement_list.push_back(create_func_call());
         } else if (check_keyword("return")) {
-            report_message ("Found return...\n");
+            //report_message ("Found return...\n");
             
             root->statement_list.push_back(create_return());
         } else {
             report_error ("Can't work with first two tokens: '%' and '%'\n", get_token(0)->str, get_token(1)->str);
         }
-        
-        //if (error_count > 0) {
-        //    if (root) delete root;
-		//	  report_message("Exiting parser...\n");
-        //    return nullptr;
-        //}
+
+		if (error_count > 0) return nullptr;
     }
     return root;
 }
@@ -233,9 +229,7 @@ ast::var_def* parser::create_var_definition() {
     
     // Variable name
     root->lhs->token_info = *front_token();
-    eat_token();
-    report_message("Variable name: %\n", root->lhs->token_info.str);
-    eat_token(); // Eat ':'
+    eat_token(); eat_token(); // Eat var name and ':'
     
     // Get expression details
     root->rhs = create_expression();
@@ -254,62 +248,49 @@ ast::var_def* parser::create_var_definition() {
 }
 
 ast::expression* parser::create_expression() {
-	/*
     // Maybe scan to ';', then work backwards?
     std::stack<token*> expr_stack;
-    //auto semi_colon = tokens.begin();
-    //
-    //while ((*semi_colon)->str != ";") semi_colon++;
-    
-	for (int i = 0; i < token_count(); ++i)
-		if (get_token(i)->str == ";") break;
 
-    for (auto it : tokens) {
-        if (it->str == ";") break;
-        
-        expr_stack.push(it);
-    }
+	for (int i = 0; i < token_count(); ++i) {
+		auto t = get_token(i);
+	
+		if (t->str == ";") break;
+		expr_stack.push(t);
+	}
 
-    ast::expression* root = nullptr;
+    ast::expression* expr = create_expression(expr_stack);
     
+    // Eat all tokens until the ';' at the end
+    while (front_token()->str != ";") eat_token();
+    return expr;
+}
+
+ast::expression* parser::create_expression(std::stack<token*>& expr_stack) {
+	// Recursive version, so we can work with specific tokens
+	ast::expression* root = nullptr;
     while(expr_stack.size() > 0) {
         auto tok = expr_stack.top();
         ast::expression* current;
 
         switch (tok->type) {
             case token_type::KEYWORD: {
-                auto id = new ast::identifier;
 
-                id->token_info = *tok;
-                //id->type_info = type::
-
-                current = id;
             } break;
-
             case token_type::IDENTIFIER: {
 
             } break;
-
             case token_type::CONSTANT: {
 
             } break;
-
             default: {
 
             }
         }
 
-        // @cleanup
-        root = current;
-
         expr_stack.pop();
     }
     
-    // Eat all tokens until the ';' at the end
-    while (front_token()->str != ";") eat_token();
-    return root;
-	*/
-	return nullptr;
+	return root;
 }
 
 ast::func_call* parser::create_func_call() {
