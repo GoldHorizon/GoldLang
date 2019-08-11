@@ -4,7 +4,7 @@
 #include "parser.h"
 #include "reporting.h"
 
-parser::parser(std::deque<token*>& token_list) {
+parser::parser(std::vector<std::deque<token*>>& token_list) {
     tokens = token_list;
 }
 
@@ -26,12 +26,31 @@ void parser::eat_token() {
     if (tokens.size() > 0) {
 		// Don't delete tokens here, lexer still holds them
         //delete tokens.front();
-        tokens.pop_front();
+        tokens.front().pop_front();
+
+		if (tokens.front().size() == 0) tokens.erase(tokens.begin());
     }
 }
 
+token* parser::get_token(int i) {
+	if (i < tokens.front().size()) return tokens.front()[i];
+	else {
+		auto it = tokens.begin();
+
+		while (i >= it->size() && it != tokens.end()) {
+			i -= it->size();
+			++it;
+		}
+
+		if (it != tokens.end())
+			return (*it)[i];
+		else 
+			return nullptr;
+	}
+}
+
 token* parser::front_token() {
-    return tokens.front();
+    return get_token();
 }
 
 ast::code* parser::create_code() {
@@ -48,8 +67,8 @@ ast::code* parser::create_code() {
     
     // @todo: Need a way for index to advance correct amount each time we look at a new statement
     while (!check_symbol("}")) {
-        report_message("Token: % at %:%\n", front_token()->str, front_token()->line, front_token()->column);
-        
+        report_message("Token: '%' at %:%\n", front_token()->str, front_token()->line, front_token()->column);
+
         if (check_identifier()) {
             if (check_operator(":", 1))
             {
@@ -71,9 +90,15 @@ ast::code* parser::create_code() {
                 }
             }
             
-            //else if (check_operator("=", 1)) {
-            
-            //}
+            else if (check_operator("=", 1)) {
+            	report_message("Found variable assignment\n");
+
+				//root->statement_list.push_back(create_var_assignment());
+
+				// DEBUG
+				while (front_token()->str != ";") eat_token();
+				eat_token();
+            }
             
             else if (check_symbol("(", 1)) {
                 report_message("Found function call\n");
@@ -82,7 +107,7 @@ ast::code* parser::create_code() {
             }
             
             else {
-                report_error("Invalid definition statement found! Line %, token - %\n", front_token()->line, tokens[1]->str);
+                report_error("Invalid statement found! Line %, token - %\n", front_token()->line, get_token(1)->str);
                 return nullptr;
             }
         } else if (check_keyword("print")) {
@@ -94,13 +119,14 @@ ast::code* parser::create_code() {
             
             root->statement_list.push_back(create_return());
         } else {
-            report_error ("Can't work with first two tokens: '%' and '%'\n", tokens[0]->str, tokens[1]->str);
+            report_error ("Can't work with first two tokens: '%' and '%'\n", get_token(0)->str, get_token(1)->str);
         }
         
-        if (error_count > 0) {
-            if (root) delete root;
-            return nullptr;
-        }
+        //if (error_count > 0) {
+        //    if (root) delete root;
+		//	  report_message("Exiting parser...\n");
+        //    return nullptr;
+        //}
     }
     return root;
 }
@@ -128,7 +154,7 @@ ast::func_def* parser::create_func_definition() {
     
     // Func name
     root->lhs->token_info = *front_token();
-    std::cout << "Function name: " << root->lhs->token_info.str << std::endl;
+	report_message("Defining function '%'\n", root->lhs->token_info.str);
     eat_token();
     
     // Parameters
@@ -147,6 +173,7 @@ ast::func_def* parser::create_func_definition() {
             delete p;
             return nullptr;
         }
+
         auto tstr = front_token()->str;
         eat_token();
         p->name = new ast::identifier;
@@ -176,7 +203,7 @@ ast::func_def* parser::create_func_definition() {
     eat_token(); // Eat ')'
     
     // Return type
-    std::cout << "\tReturn type: " << front_token()->str << std::endl;
+	report_message("  Return type: %\n", front_token()->str);
     if (front_token()->str == "bool")
         root->rhs_ret_type = type::t_bool;
     if (front_token()->str == "int")
@@ -192,7 +219,7 @@ ast::func_def* parser::create_func_definition() {
     
     // Code
     report_message("Grabbing code...\n");
-    eat_token(); // Remove {
+    eat_token(); // Eat '{'
     
     root->rhs_code = create_code();
     
@@ -215,20 +242,28 @@ ast::var_def* parser::create_var_definition() {
     
     if (check_symbol(";")) {
         eat_token();
-        return root;
-    }
-    
-    report_error("Didn't find ';' after expression on line %\n", front_token()->line);
-    return nullptr;
+    } else {
+		//DEBUG
+		while (front_token()->str != ";") eat_token();
+		eat_token();
+		
+		report_error("Didn't find ';' after expression on line %\n", front_token()->line);
+	}
+
+	return root;
 }
 
 ast::expression* parser::create_expression() {
+	/*
     // Maybe scan to ';', then work backwards?
     std::stack<token*> expr_stack;
-    auto semi_colon = tokens.begin();
+    //auto semi_colon = tokens.begin();
+    //
+    //while ((*semi_colon)->str != ";") semi_colon++;
     
-    while ((*semi_colon)->str != ";") semi_colon++;
-    
+	for (int i = 0; i < token_count(); ++i)
+		if (get_token(i)->str == ";") break;
+
     for (auto it : tokens) {
         if (it->str == ";") break;
         
@@ -273,6 +308,8 @@ ast::expression* parser::create_expression() {
     // Eat all tokens until the ';' at the end
     while (front_token()->str != ";") eat_token();
     return root;
+	*/
+	return nullptr;
 }
 
 ast::func_call* parser::create_func_call() {
@@ -331,8 +368,16 @@ ast::func_call* parser::create_func_call() {
     return root;
 }
 
+int parser::token_count() {
+	int count = 0;
+	for (auto d : tokens)
+		count += d.size();
+
+	return count;
+}
+
 bool parser::check_token(token_type t, std::string s, int index) {
-    return (tokens[index]->type == t && (s == "" || tokens[index]->str == s));
+    return (get_token(index)->type == t && (s == "" || get_token(index)->str == s));
 }
 
 bool parser::check_keyword  (std::string s, int index) {

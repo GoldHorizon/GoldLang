@@ -77,14 +77,12 @@ lexer::~lexer() {
 
 void lexer::read_file(std::string file_name) {
 	report_message("Thread count = %\n", THREAD_COUNT + 1);
-    //report_message("Begin reading file '%'\n", file_name);
     std::ifstream file;
     std::string line;
 
     file.open(file_name);
 
     if (!file) {
-        // @todo Make into error report
         report_error("Could not open file %\n", file_name);
         return;
     }
@@ -95,13 +93,23 @@ void lexer::read_file(std::string file_name) {
 	for (int i = 0; i < THREAD_COUNT; i++)
 		jobs[i] = std::thread(&lexer::thread_file, this, std::ref(file));
 
-	// Make this main thread help do work too.
+	// Make this main thread help do some of the work
 	thread_file(file);
 
 	for (int i = 0; i < THREAD_COUNT; i++)
 		if (jobs[i].joinable()) jobs[i].join();
 
 	delete [] jobs;
+
+	// Cleanup empty token deques, if they exist
+	auto it = tokens.begin();
+
+	while (it != tokens.end()) {
+		if (it->size() == 0)
+			it = tokens.erase(it);
+		else
+			++it;
+	}
 
     file.close();
 }
@@ -126,8 +134,8 @@ void lexer::thread_file(std::ifstream& file) {
 		file_mutex.unlock();
 		// End mutex protection
 
+		// If we got an empty line, just move on to another line
 		if (line_str == "") continue;
-		//if (!file) return;
 
 		tokenize_line(line_tokens, line_str, line_num);
 
@@ -170,12 +178,10 @@ void lexer::tokenize_line(std::deque<token*>& line_tokens, std::string line, int
 
 			for (auto re_t : re_list) {
 				if (std::regex_search(current_line, re_match, *(re_t->re))) {
-					if (re_t->type != token_type::NONE) {
-						//report_message("Found: %\n", re_match.str());
-
+					if (re_t->type != token_type::NONE && re_t->type != token_type::COMMENT)
 						line_tokens.push_back(new token(re_t->type, re_match.str(), line_num, column_num));
-					}
 
+					column_num += re_match.length();
 					current_line = re_match.suffix();
 					matched = true;
 					break;
@@ -214,7 +220,7 @@ void lexer::print_tokens() {
 		// More debug
 		if (line_num < 700) continue;
 
-		report_message("\tLine %:\t", line_num);
+		report_message("\tLine %:\t", d.front()->line);
 		for (auto t : d) {
 			report_message("%", t->str);
 		}

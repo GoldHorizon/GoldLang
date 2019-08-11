@@ -13,7 +13,7 @@ using umap = std::unordered_map<std::string, symbol*>;
 
 class parser {
     public:
-    parser(std::deque<token*>& token_list);
+    parser(std::vector<std::deque<token*>>& token_list);
     void build_tree();
     void print_tree();
     
@@ -29,7 +29,10 @@ class parser {
     
     private:
     void eat_token();
+    token* get_token(int i = 0);
     token* front_token();
+
+	int token_count();
     
     bool check_token        (token_type t, std::string s = "", int index = 0);
     bool check_keyword      (std::string s = "", int index = 0);
@@ -38,7 +41,7 @@ class parser {
     bool check_operator     (std::string s = "", int index = 0);
     
     ast::root* tree;
-    std::deque<token*> tokens;
+    std::vector<std::deque<token*>> tokens;
     
     umap symbol_table;
 };
