@@ -25,5 +25,5 @@ parser.o : parser.cpp parser.h
 	${compiler} ${c_flags} -c parser.cpp
 
 clean :
-	rm *.o
-	rm ${output}
+	@-rm -f *.o
+	@-rm -f ${output}
