@@ -1,26 +1,29 @@
+output=compiler
 compiler=g++
-flag=-std=c++11
+c_flags=-std=c++11
+l_flags=-pthread
 
 all : types.o reporting.o clock.o lexer.o ast_nodes.o parser.o
-	${compiler} ${flag} -pthread main.cpp types.o reporting.o clock.o lexer.o parser.o ast_nodes.o -o compiler
+	${compiler} ${c_flags} ${l_flags} main.cpp types.o reporting.o clock.o lexer.o parser.o ast_nodes.o -o ${output}
 
 types.o : types.cpp types.h
-	${compiler} ${flag} -c types.cpp
+	${compiler} ${c_flags} -c types.cpp
 
 reporting.o : reporting.cpp reporting.h
-	${compiler} ${flag} -c reporting.cpp
+	${compiler} ${c_flags} -c reporting.cpp
 	
 clock.o : clock.cpp clock.h
-	${compiler} ${flag} -c clock.cpp
+	${compiler} ${c_flags} -c clock.cpp
 
 lexer.o : lexer.cpp lexer.h
-	${compiler} ${flag} -c lexer.cpp
+	${compiler} ${c_flags} -c lexer.cpp
 
 ast_nodes.o : ast_nodes.cpp ast_nodes.h
-	${compiler} ${flag} -c ast_nodes.cpp
+	${compiler} ${c_flags} -c ast_nodes.cpp
 
 parser.o : parser.cpp parser.h
-	${compiler} ${flag} -c parser.cpp
+	${compiler} ${c_flags} -c parser.cpp
 
 clean :
 	rm *.o
+	rm ${output}
