@@ -41,10 +41,9 @@ int main (int argc, char** argv) {
     p->print_tree();
 
 	delete p;
-	report_message("Parser memory freed\n");
-	
 	delete l;
-	report_message("Lexer memory freed\n");
+
+	report_message("Memory freed\n");
 
 	return 0;
 }

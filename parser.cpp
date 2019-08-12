@@ -61,13 +61,10 @@ ast::code* parser::create_code() {
     auto root = new ast::code;
 	bool block = false; // Whether this is just a code block (perhaps as part of a definition of a function or struct), or just straight code in the file.
     
-    // Consider removing this, may not be necessary, simply for safety
     if (check_symbol("{")) {
         eat_token();
 		block = true;
     }
-    
-    report_message("Begin code tokens\n");
     
     while (!check_symbol("}")) {
 		// Determine what type of token is first, then look ahead to see whats next
@@ -250,47 +247,25 @@ ast::var_def* parser::create_var_definition() {
 ast::expression* parser::create_expression() {
     // Maybe scan to ';', then work backwards?
     std::stack<token*> expr_stack;
+    std::stack<token*> op_stack;
 
 	for (int i = 0; i < token_count(); ++i) {
 		auto t = get_token(i);
 	
 		if (t->str == ";") break;
-		expr_stack.push(t);
+
+		if (check_operator(t->str))
+			op_stack.push(t);
+		else
+			expr_stack.push(t);
 	}
 
-    ast::expression* expr = create_expression(expr_stack);
+    //ast::expression* expr = create_expression();/////??????? @todo
     
     // Eat all tokens until the ';' at the end
     while (front_token()->str != ";") eat_token();
-    return expr;
-}
-
-ast::expression* parser::create_expression(std::stack<token*>& expr_stack) {
-	// Recursive version, so we can work with specific tokens
-	ast::expression* root = nullptr;
-    while(expr_stack.size() > 0) {
-        auto tok = expr_stack.top();
-        ast::expression* current;
-
-        switch (tok->type) {
-            case token_type::KEYWORD: {
-
-            } break;
-            case token_type::IDENTIFIER: {
-
-            } break;
-            case token_type::CONSTANT: {
-
-            } break;
-            default: {
-
-            }
-        }
-
-        expr_stack.pop();
-    }
-    
-	return root;
+    //return expr;
+	return nullptr;
 }
 
 ast::func_call* parser::create_func_call() {

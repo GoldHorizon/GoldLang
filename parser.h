@@ -25,7 +25,6 @@ class parser {
     ast::func_def*      create_func_definition();
     ast::var_def*       create_var_definition();
     ast::expression*    create_expression();
-    ast::expression*    create_expression(std::stack<token*>& expr_stack);
     ast::func_call*     create_func_call();
     ast::return_call*   create_return();
     

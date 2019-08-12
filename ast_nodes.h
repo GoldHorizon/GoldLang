@@ -61,14 +61,6 @@ namespace ast {
         code* rhs_code;
     };
     
-    struct func_call : public expression {
-        ~func_call();
-        virtual void print(int t = 0);
-        
-        identifier* lhs;
-        parameters* rhs;
-    };
-    
     struct var_def : public definition {
         ~var_def();
         virtual void print(int t = 0);
@@ -97,25 +89,26 @@ namespace ast {
         
         std::vector<parameter*> parameter_list;
     };
-    
-    struct operation : public expression {
+
+	// EXPRESSIONS
+    struct func_call : public expression {
+        ~func_call();
         virtual void print(int t = 0);
         
-        token token_info;
+        identifier* lhs;
+        parameters* rhs;
     };
     
     struct identifier : public expression {
         virtual void print(int t = 0);
         
         token token_info;
-        //type type_info;
     };
     
     struct number : public expression {
         virtual void print(int t = 0);
         
         token token_info;
-        //type type_info;
     };
     
     struct eval : public expression {
@@ -129,9 +122,9 @@ namespace ast {
         ~binary_expr();
         virtual void print(int t = 0);
         
-        expression* left;
-        operation*  op;
-        expression* right;
+        expression* left_expr;
+        token op;
+        expression* right_expr;
     };
     
     struct unary_expr : public expression {
@@ -139,7 +132,7 @@ namespace ast {
         virtual void print(int t = 0);
         
         expression* expr;
-        operation*  op;
+        token op;
     };
     
 }
