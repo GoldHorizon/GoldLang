@@ -1,9 +1,11 @@
 #pragma once
 
 #include <string>
+#include <iostream>
+
+#include "globals.h"
 
 #define allow_debug
-#define debug
 
 extern uint16_t warning_count;
 extern uint16_t error_count;
@@ -46,10 +48,10 @@ void report_error(A... args) {
 #ifdef allow_debug
 template<typename... A>
 void report_debug(A... args) {
-#ifdef debug
-	std::cout << "DEBUG: ";
-	report_message(args...);
-#endif // debug
+	if (debug_mode) {
+		std::cout << "DEBUG: ";
+		report_message(args...);
+	}
 }
 #endif // allow_debug
 

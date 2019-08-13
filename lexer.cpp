@@ -5,12 +5,11 @@
 
 #include "lexer.h"
 #include "reporting.h"
+#include "globals.h"
 
 int current_line_num = 0;
 std::mutex file_mutex;
 std::mutex token_mutex;
-
-const int THREAD_COUNT = std::thread::hardware_concurrency() - 1;
 
 re_type::~re_type() {
     delete re;
@@ -76,7 +75,6 @@ lexer::~lexer() {
 }
 
 void lexer::read_file(std::string file_name) {
-	report_debug("Thread count = %\n", THREAD_COUNT + 1);
     std::ifstream file;
     std::string line;
 
@@ -88,22 +86,29 @@ void lexer::read_file(std::string file_name) {
     }
 
 	// Multi-thread here!
-	report_debug("Creating job threads\n");
-	std::thread* jobs = new std::thread[THREAD_COUNT];
+	if (thread_count > 0) {
+		report_debug("Thread count = %\n", thread_count + 1);
 
-	report_debug("Assigning job threads\n");
-	for (int i = 0; i < THREAD_COUNT; i++)
-		jobs[i] = std::thread(&lexer::thread_file, this, std::ref(file));
+		report_debug("Creating job threads\n");
+		std::thread* jobs = new std::thread[thread_count];
 
-	// Make this main thread help do some of the work
-	thread_file(file);
+		report_debug("Assigning job threads\n");
+		for (int i = 0; i < thread_count; i++)
+			jobs[i] = std::thread(&lexer::thread_file, this, std::ref(file));
 
-	report_debug("Joining job threads\n");
-	for (int i = 0; i < THREAD_COUNT; i++)
-		if (jobs[i].joinable()) jobs[i].join();
+		// Make this main thread help do some of the work
+		thread_file(file);
 
-	report_debug("Deleting job threads\n");
-	delete [] jobs;
+		report_debug("Joining job threads\n");
+		for (int i = 0; i < thread_count; i++)
+			if (jobs[i].joinable()) jobs[i].join();
+
+		report_debug("Deleting job threads\n");
+		delete [] jobs;
+	} else {
+		// Make this main thread do all the work
+		thread_file(file);
+	}
 
 	// Cleanup empty token deques, if they exist
 	auto it = tokens.begin();
