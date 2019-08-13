@@ -66,8 +66,10 @@ ast::code* parser::create_code() {
 		block = true;
     }
     
+	report_debug("Starting code loop\n");
     while (!check_symbol("}")) {
 		// Determine what type of token is first, then look ahead to see whats next
+		report_debug("  Front symbol: %\n", front_token()->str);
         if (check_identifier()) {
             if (check_operator(":", 1))
             {
@@ -212,7 +214,7 @@ ast::func_def* parser::create_func_definition() {
     
     // Code
     report_message("Grabbing code...\n");
-    eat_token(); // Eat '{'
+    //eat_token(); // Don't eat '{', create_code looks for it
     
     root->rhs_code = create_code();
     
@@ -229,6 +231,7 @@ ast::var_def* parser::create_var_definition() {
     eat_token(); eat_token(); // Eat var name and ':'
     
     // Get expression details
+	report_debug("Creating expression\n");
     root->rhs = create_expression();
     
     if (check_symbol(";")) {
@@ -252,6 +255,8 @@ ast::expression* parser::create_expression() {
 	for (int i = 0; i < token_count(); ++i) {
 		auto t = get_token(i);
 	
+		report_debug("Expr token %\n", t->str);
+
 		if (t->str == ";") break;
 
 		if (check_operator(t->str))
@@ -260,10 +265,13 @@ ast::expression* parser::create_expression() {
 			expr_stack.push(t);
 	}
 
-    //ast::expression* expr = create_expression();/////??????? @todo
-    
     // Eat all tokens until the ';' at the end
     while (front_token()->str != ";") eat_token();
+
+	// DEBUG
+	if (!(op_stack.empty() || op_stack.empty()))
+		report_message("Top OP: % - Top EXPR: %\n", op_stack.top(), expr_stack.top());
+
     //return expr;
 	return nullptr;
 }

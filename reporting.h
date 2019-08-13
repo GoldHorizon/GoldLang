@@ -2,6 +2,9 @@
 
 #include <string>
 
+#define allow_debug
+#define debug
+
 extern uint16_t warning_count;
 extern uint16_t error_count;
 
@@ -39,6 +42,16 @@ void report_error(A... args) {
     std::cout << "Error: ";
     report_message(args...);
 }
+
+#ifdef allow_debug
+template<typename... A>
+void report_debug(A... args) {
+#ifdef debug
+	std::cout << "DEBUG: ";
+	report_message(args...);
+#endif // debug
+}
+#endif // allow_debug
 
 //template<typename T, typename... A>
 //void report_message(std::string s, T v, A... args);

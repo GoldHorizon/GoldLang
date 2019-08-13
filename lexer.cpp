@@ -76,7 +76,7 @@ lexer::~lexer() {
 }
 
 void lexer::read_file(std::string file_name) {
-	report_message("Thread count = %\n", THREAD_COUNT + 1);
+	report_debug("Thread count = %\n", THREAD_COUNT + 1);
     std::ifstream file;
     std::string line;
 
@@ -88,17 +88,21 @@ void lexer::read_file(std::string file_name) {
     }
 
 	// Multi-thread here!
+	report_debug("Creating job threads\n");
 	std::thread* jobs = new std::thread[THREAD_COUNT];
 
+	report_debug("Assigning job threads\n");
 	for (int i = 0; i < THREAD_COUNT; i++)
 		jobs[i] = std::thread(&lexer::thread_file, this, std::ref(file));
 
 	// Make this main thread help do some of the work
 	thread_file(file);
 
+	report_debug("Joining job threads\n");
 	for (int i = 0; i < THREAD_COUNT; i++)
 		if (jobs[i].joinable()) jobs[i].join();
 
+	report_debug("Deleting job threads\n");
 	delete [] jobs;
 
 	// Cleanup empty token deques, if they exist
@@ -126,7 +130,10 @@ void lexer::thread_file(std::ifstream& file) {
 		// Protect the file from being read out of order.
 		file_mutex.lock();
 
-			if (!file) return;
+			if (!file) {
+				file_mutex.unlock();
+				return;
+			}
 
 			line_num = ++current_line_num;
 			std::getline(file, line_str);
