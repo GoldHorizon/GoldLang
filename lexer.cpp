@@ -224,9 +224,6 @@ void lexer::print_tokens() {
 	for (auto d : tokens) {
 		++line_num;
 
-		// More debug
-		if (line_num < 700) continue;
-
 		report_message("\tLine %:\t", d.front()->line);
 		for (auto t : d) {
 			report_message("%", t->str);

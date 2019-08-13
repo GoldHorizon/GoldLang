@@ -36,14 +36,13 @@ int main (int argc, char** argv) {
         return 1;
     } else {
 		report_message("Parser time taken: % milliseconds\n", timer::time());
+		p->print_tree();
 	}
-
-    p->print_tree();
 
 	delete p;
 	delete l;
 
-	report_message("Memory freed\n");
+	report_debug("Memory freed\n");
 
 	return 0;
 }
