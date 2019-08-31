@@ -24,6 +24,7 @@ int main (int argc, char** argv) {
 
 			report_message("Compiling file %\n", file_str);
 
+			// Lexing
 			lexer* l = new lexer;
 
 			timer::start();
@@ -39,6 +40,7 @@ int main (int argc, char** argv) {
 					l->print_tokens();
 			}
 
+			// Parsing
 			parser* p = new parser(l->tokens);
 
 			timer::start();
@@ -54,6 +56,7 @@ int main (int argc, char** argv) {
 					p->print_tree();
 			}
 
+			// Free memory
 			delete p;
 			delete l;
 
