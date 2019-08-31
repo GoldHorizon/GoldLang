@@ -56,6 +56,8 @@ int main (int argc, char** argv) {
 					p->print_tree();
 			}
 
+			// Eventually put this data in some other object to use when linking
+
 			// Free memory
 			delete p;
 			delete l;

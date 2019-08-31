@@ -10,6 +10,6 @@ void init_vars() {
 	thread_count = std::thread::hardware_concurrency() - 1;
 
 	// Set debug_mode default
-	debug_mode = true;
+	debug_mode = false;
 }
 

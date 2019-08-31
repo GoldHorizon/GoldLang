@@ -9,7 +9,7 @@ parser::parser(std::vector<std::deque<token*>>& token_list) {
 }
 
 void parser::build_tree() {
-    report_message("Begin parsing...\n");
+    report_debug("Begin parsing...\n");
     
     tree = new ast::root;
     
@@ -149,7 +149,7 @@ ast::func_def* parser::create_func_definition() {
     
     // Func name
     root->lhs->token_info = *front_token();
-	report_message("Defining function '%'\n", root->lhs->token_info.str);
+	report_debug("Defining function '%'\n", root->lhs->token_info.str);
     eat_token();
     
     // Parameters
@@ -198,7 +198,7 @@ ast::func_def* parser::create_func_definition() {
     eat_token(); // Eat ')'
     
     // Return type
-	report_message("  Return type: %\n", front_token()->str);
+	report_debug("  Return type: %\n", front_token()->str);
     if (front_token()->str == "bool")
         root->rhs_ret_type = type::t_bool;
     if (front_token()->str == "int")
@@ -213,7 +213,7 @@ ast::func_def* parser::create_func_definition() {
     eat_token(); // Eat the type token
     
     // Code
-    report_message("Grabbing code...\n");
+    report_debug("Grabbing code...\n");
     //eat_token(); // Don't eat '{', create_code looks for it
     
     root->rhs_code = create_code();
