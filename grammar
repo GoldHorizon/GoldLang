@@ -1,7 +1,7 @@
-Grammar:
+Expression Grammar:
 
 	S -> E
-	E -> A == A | A
+	E -> E == A | A 	// ? Maybe don't make it left recursive
 	A -> A + B
 	A -> A - B
 	A -> B
@@ -12,5 +12,5 @@ Grammar:
 	C -> F ^ C
 	C -> F
 	F -> (A)
-	F -> id / num
+	F -> id | num
 
